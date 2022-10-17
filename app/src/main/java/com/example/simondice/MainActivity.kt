@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             for (items in listado){
-                  iluminar(items)
+                  iluminar(items, 0)
             }
         }
         when(Random().nextInt(4) + 1){
@@ -64,22 +64,22 @@ class MainActivity : AppCompatActivity() {
     private fun iluminar(boton: Button, ronda: Int){
         //Problema con el viewbyid a resolver, poner los colores correctamente, hacer que baje el tiempo con ronda
         when(boton){
-            boton.findViewById(R.id.rojo) -> {
+            boton.findViewById<Button>(R.id.rojo) -> {
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
                 Thread.sleep(1_000)
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
             }
-            boton.findViewById(R.id.azul) -> {
+            boton.findViewById<Button>(R.id.azul) -> {
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
                 Thread.sleep(1_000)
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
             }
-            boton.findViewById(R.id.verde) -> {
+            boton.findViewById<Button>(R.id.verde) -> {
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
                 Thread.sleep(1_000)
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
             }
-            boton.findViewById(R.id.amarillo) -> {
+            boton.findViewById<Button>(R.id.amarillo) -> {
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
                 Thread.sleep(1_000)
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
