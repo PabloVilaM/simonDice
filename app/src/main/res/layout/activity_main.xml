@@ -7,50 +7,51 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/rojo"
         android:layout_width="206dp"
         android:layout_height="360dp"
         android:layout_marginTop="380dp"
         android:backgroundTint="#5A0000"
-        android:text="Button"
+        android:text="Rojo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/azul"
         android:layout_width="206dp"
         android:layout_height="360dp"
         android:layout_marginTop="380dp"
         android:backgroundTint="#041E65"
-        android:text="Button"
+        android:text="Azul"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/verde"
         android:layout_width="206dp"
         android:layout_height="360dp"
         android:layout_marginBottom="28dp"
         android:backgroundTint="#025505"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:text="Verde"
+        app:layout_constraintBottom_toTopOf="@+id/rojo"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/amarillo"
         android:layout_width="206dp"
         android:layout_height="360dp"
         android:layout_marginBottom="28dp"
         android:backgroundTint="#685E02"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        android:text="Amarillo"
+        app:layout_constraintBottom_toTopOf="@+id/azul"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/inicio"
         android:layout_width="412dp"
         android:layout_height="49dp"
-        android:text="Button"
+        android:backgroundTint="#000000"
+        android:text="Inicio"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
