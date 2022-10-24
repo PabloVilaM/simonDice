@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.widget.Button
 import java.util.*
 import android.graphics.Color;
+import android.widget.TextView
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     val lista: ArrayList<Button> = ArrayList();
     var ronda: Int = 0;
     val listaPulsaciones: ArrayList<Button> = ArrayList();
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         botonInicio.setOnClickListener(){
             generarSecuencia(lista)
         }
+
     }
 
     private fun generarSecuencia(listado: ArrayList<Button>){
@@ -90,6 +93,8 @@ class MainActivity : AppCompatActivity() {
         }
         if (ronda == listado.size){
             val contador: Int = 0;
+            val botonInicio: Button = findViewById(R.id.inicio)
+            botonInicio.text = "Repite la secuencia"
             for (items in listado){
                 gestionarPulsacion(listado, contador)
             }
@@ -119,7 +124,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun gameOver(){
-
+        val botonInicio: Button = findViewById(R.id.inicio)
+         botonInicio.text = "Has perdido"
+         iniciarPartida()
     }
 
 }
