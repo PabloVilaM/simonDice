@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.widget.Button
 import java.util.*
 import android.graphics.Color;
+import android.util.Log
 import android.widget.TextView
+import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     val lista: ArrayList<Button> = ArrayList();
     var ronda: Int = 0;
     val listaPulsaciones: ArrayList<Button> = ArrayList();
+    var contador2: Int = 0;
+    var contador: Int = -1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,111 +26,168 @@ class MainActivity : AppCompatActivity() {
 
     private fun iniciarPartida(){
         val botonInicio: Button = findViewById(R.id.inicio);
-        botonInicio.setOnClickListener(){
-            generarSecuencia(lista)
+        if (contador2> 1){
+            println("ah no")
+            return
         }
-
+        else{
+            botonInicio.setOnClickListener() {
+                generarSecuencia(lista);
+                contador2++
+            }
+        }
     }
 
-    private fun generarSecuencia(listado: ArrayList<Button>){
+    private fun generarSecuencia(listado: ArrayList<Button>) = runBlocking{
         if (listado.size == 0){
-            println("Lista nula")
             ronda++
         }
         else{
             for (items in listado){
-                  iluminar(items, ronda, listado)
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                    iluminar(items, ronda, listado)
+                }
             }
             ronda++
         }
         when(Random().nextInt(4) + 1){
             1 -> {
                 val botonRojo: Button = findViewById(R.id.rojo);
-                iluminar(botonRojo, ronda, listado)
-                listado.add(botonRojo)
 
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
+                    listado.add(botonRojo)
+                    iluminar(botonRojo, ronda, listado)
+                }
             }
             2 -> {
                 val botonAmarillo: Button = findViewById(R.id.amarillo);
-                iluminar(botonAmarillo, ronda, listado)
-                listado.add(botonAmarillo)
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
+                    listado.add(botonAmarillo)
+                    iluminar(botonAmarillo, ronda, listado)
+                }
             }
             3 -> {
                 val botonVerde: Button = findViewById(R.id.verde);
-                iluminar(botonVerde, ronda, listado)
-                listado.add(botonVerde)
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
+                    listado.add(botonVerde)
+                    iluminar(botonVerde, ronda, listado)
+                }
             }
             4 -> {
                 val botonAzul: Button = findViewById(R.id.azul);
-                iluminar(botonAzul, ronda, listado)
-                listado.add(botonAzul)
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
+                    listado.add(botonAzul)
+                    iluminar(botonAzul, ronda, listado)
+                }
             }
             else -> {
-                println("Error");
+                Log.d("errorSecuencia", "La secuencia ha dado error")
             }
         }
     }
 
-    private fun iluminar(boton: Button, ronda: Int, listado: ArrayList<Button>){
+    private fun iluminar(boton: Button, ronda: Int, listado: ArrayList<Button>) = runBlocking{
         //Problema con el viewbyid a resolver, poner los colores correctamente, hacer que baje el tiempo con ronda
         when(boton){
             boton.findViewById<Button>(R.id.rojo) -> {
                 boton.setBackgroundColor(Color.parseColor("#e03a17"))
-                Thread.sleep(1_000) //1 segundo de espera
-                boton.setBackgroundColor(Color.parseColor("#5A0000"))
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                    boton.setBackgroundColor(Color.parseColor("#5A0000"))
+                }
+                println("a")
             }
             boton.findViewById<Button>(R.id.azul) -> {
                 boton.setBackgroundColor(Color.parseColor("#177ae0"))
-                Thread.sleep(1_000)
-                boton.setBackgroundColor(Color.parseColor("#041E65"))
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                    boton.setBackgroundColor(Color.parseColor("#041E65"))
+                }
+                println("a")
             }
             boton.findViewById<Button>(R.id.verde) -> {
                 boton.setBackgroundColor(Color.parseColor("#21ce16"))
-                Thread.sleep(1_000)
-                boton.setBackgroundColor(Color.parseColor("#025505"))
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                    boton.setBackgroundColor(Color.parseColor("#025505"))
+                }
+                println("a")
             }
             boton.findViewById<Button>(R.id.amarillo) -> {
                 boton.setBackgroundColor(Color.parseColor("#e8eb0e"))
-                Thread.sleep(1_000)
-                boton.setBackgroundColor(Color.parseColor("#685E02"))
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                    boton.setBackgroundColor(Color.parseColor("#685E02"))
+                }
             }
         }
+        println("Lista: " + listado.size + "ronda: " + ronda)
         if (ronda == listado.size){
-            val contador: Int = 0;
+            println("Aqui entro")
             val botonInicio: Button = findViewById(R.id.inicio)
             botonInicio.text = "Repite la secuencia"
             for (items in listado){
-                gestionarPulsacion(listado, contador)
+                println("Contador: " + contador)
+                gestionarPulsacion(listado)
             }
         }
     }
 
-    private fun gestionarPulsacion(listado: ArrayList<Button>, contador: Int){
+    private fun gestionarPulsacion(listado: ArrayList<Button>){
 
         val botonRojo: Button = findViewById(R.id.rojo);
+        val botonAzul: Button = findViewById(R.id.azul);
+        val botonVerde: Button = findViewById(R.id.verde);
+        val botonAmarillo: Button = findViewById(R.id.amarillo);
 
         botonRojo.setOnClickListener {
             listaPulsaciones.add(botonRojo)
-            comprobacion(listado, listaPulsaciones, contador)
+            contador++
+            comprobacion(listado, listaPulsaciones)
+        }
+
+        botonAzul.setOnClickListener {
+            listaPulsaciones.add(botonAzul)
+            contador++
+            comprobacion(listado, listaPulsaciones)
+        }
+
+        botonVerde.setOnClickListener {
+            listaPulsaciones.add(botonVerde)
+            contador++
+            comprobacion(listado, listaPulsaciones)
+        }
+
+        botonAmarillo.setOnClickListener {
+            listaPulsaciones.add(botonAmarillo)
+            contador++
+            comprobacion(listado, listaPulsaciones)
         }
 
     }
 
-    private fun comprobacion(listado: ArrayList<Button>, listaPulso: ArrayList<Button>, contador: Int){
-        while (contador < listado.size){
+    private fun comprobacion(listado: ArrayList<Button>, listaPulso: ArrayList<Button>){
             if (listado[contador].id != listaPulso[contador].id){
                 gameOver();
+                println("Alv")
             }
-            else{
+            else if (listado.size == contador + 1){
                 generarSecuencia(listado)
+                println("No fuco")
+                contador = -1
+
             }
-        }
     }
 
     private fun gameOver(){
         val botonInicio: Button = findViewById(R.id.inicio)
          botonInicio.text = "Has perdido"
-         iniciarPartida()
+         //iniciarPartida()
     }
 
 }

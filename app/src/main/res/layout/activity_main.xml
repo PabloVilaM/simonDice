@@ -31,7 +31,7 @@
         android:layout_width="206dp"
         android:layout_height="355dp"
         android:layout_marginBottom="-11dp"
-        android:backgroundTint="#025505"
+        android:backgroundTint="#062B07"
         android:text="Verde"
         app:layout_constraintBottom_toTopOf="@+id/inicio"
         app:layout_constraintStart_toStartOf="parent" />
