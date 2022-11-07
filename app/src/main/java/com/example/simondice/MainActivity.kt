@@ -43,12 +43,12 @@ class MainActivity : AppCompatActivity() {
             ronda++
         }
         else{
-            for (items in listado){
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
-                    iluminar(items, ronda, listado)
+                    for (items in listado){
+                        delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                        iluminar(items, ronda, listado)
+                    }
                 }
-            }
             ronda++
         }
         when(Random().nextInt(4) + 1){
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 val botonRojo: Button = findViewById(R.id.rojo);
 
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
+                    delay(3000L) // non-blocking delay for 1 second (default time unit is ms)
                     listado.add(botonRojo)
                     iluminar(botonRojo, ronda, listado)
                 }
@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun comprobacion(listado: ArrayList<Button>, listaPulso: ArrayList<Button>){
+
             if (listado[contador].id != listaPulso[contador].id){
                 gameOver();
                 println("Alv")
@@ -180,8 +181,10 @@ class MainActivity : AppCompatActivity() {
                 generarSecuencia(listado)
                 println("No fuco")
                 contador = -1
+                listaPulso.clear()
 
             }
+        println("abc")
     }
 
     private fun gameOver(){
