@@ -1,11 +1,11 @@
 package com.example.simondice
 
 import android.app.Application
+import android.icu.text.AlphabeticIndex.Record
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import kotlin.random.Random
+import androidx.room.Room
 
 /**
  * Inicializa y modifica los datos de la app
@@ -13,9 +13,13 @@ import kotlin.random.Random
 class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val TAG_LOG: String = "Aqui tenemoh el ViewModel"
-
+    private val context = getApplication<Application>().applicationContext
     val ronda = MutableLiveData<Int>()
     val record = MutableLiveData<Int?>()
+    val db = Room.databaseBuilder(
+        context,
+        RecordDataBase.AppDatabase::class.java, "Score"
+    ).build()
 
 
     // inicializamos variables cuando instanciamos
@@ -36,5 +40,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetearRonda(){
         ronda.value = 0
+    }
+
+    fun revisarRecordBD(){
+        val recordDao = db.recordDao()
+        val users: List<RecordEntidades.DataUsuario> = recordDao.mirarElPrimerRecord()
     }
 }

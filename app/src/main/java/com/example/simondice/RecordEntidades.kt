@@ -1,5 +1,5 @@
 package com.example.simondice
-import androidx.room.*
+    import androidx.room.*
 
 class RecordEntidades {
     @Entity
