@@ -13,9 +13,11 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
     val lista: ArrayList<Button> = ArrayList();
     var ronda: Int = 0;
+    var record: Int = 0
     val listaPulsaciones: ArrayList<Button> = ArrayList();
     var contador2: Int = 0;
     var contador: Int = -1;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,12 +27,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun iniciarPartida(){
-        val botonInicio: Button = findViewById(R.id.inicio);
+        ronda = 0;
         if (contador2> 1){
             println("ah no")
             return
         }
         else{
+            val botonInicio: Button = findViewById(R.id.inicio)
             botonInicio.setOnClickListener() {
                 generarSecuencia(lista);
                 contador2++
@@ -39,56 +42,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generarSecuencia(listado: ArrayList<Button>) = runBlocking{
-        if (listado.size == 0){
-            ronda++
-        }
-        else{
-                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    for (items in listado){
-                        delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
-                        iluminar(items, ronda, listado)
-                    }
-                }
-            ronda++
-        }
         when(Random().nextInt(4) + 1){
             1 -> {
                 val botonRojo: Button = findViewById(R.id.rojo);
+                listado.add(botonRojo)
 
-                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(3000L) // non-blocking delay for 1 second (default time unit is ms)
-                    listado.add(botonRojo)
-                    iluminar(botonRojo, ronda, listado)
-                }
             }
             2 -> {
                 val botonAmarillo: Button = findViewById(R.id.amarillo);
-                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
                     listado.add(botonAmarillo)
-                    iluminar(botonAmarillo, ronda, listado)
-                }
             }
             3 -> {
                 val botonVerde: Button = findViewById(R.id.verde);
-                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
-                    listado.add(botonVerde)
-                    iluminar(botonVerde, ronda, listado)
-                }
+                listado.add(botonVerde)
+
             }
             4 -> {
                 val botonAzul: Button = findViewById(R.id.azul);
-                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
-                    delay(2500L) // non-blocking delay for 1 second (default time unit is ms)
-                    listado.add(botonAzul)
-                    iluminar(botonAzul, ronda, listado)
-                }
+                listado.add(botonAzul)
+
             }
             else -> {
                 Log.d("errorSecuencia", "La secuencia ha dado error")
             }
         }
+        if (listado.size == 0){
+            ronda++
+        }
+        else{
+            var boton: Button = findViewById(R.id.rojo)
+                GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
+                    for (items in listado){
+                        delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                        if(boton == items) {
+                            delay(500L)
+                        }
+                        boton = items
+                        iluminar(items, ronda, listado)
+                    }
+                }
+            ronda++
+            record++
+        }
+
     }
 
     private fun iluminar(boton: Button, ronda: Int, listado: ArrayList<Button>) = runBlocking{
@@ -99,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
                     delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                     boton.setBackgroundColor(Color.parseColor("#5A0000"))
+
                 }
                 println("a")
             }
@@ -107,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
                     delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                     boton.setBackgroundColor(Color.parseColor("#041E65"))
+
                 }
                 println("a")
             }
@@ -115,6 +113,7 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
                     delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                     boton.setBackgroundColor(Color.parseColor("#025505"))
+
                 }
                 println("a")
             }
@@ -123,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) { // launch a new coroutine and continue
                     delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                     boton.setBackgroundColor(Color.parseColor("#685E02"))
+
                 }
             }
         }
@@ -144,9 +144,10 @@ class MainActivity : AppCompatActivity() {
         val botonAzul: Button = findViewById(R.id.azul);
         val botonVerde: Button = findViewById(R.id.verde);
         val botonAmarillo: Button = findViewById(R.id.amarillo);
-
+        println("Tam: " + listaPulsaciones.size)
         botonRojo.setOnClickListener {
             listaPulsaciones.add(botonRojo)
+            println(listaPulsaciones.size)
             contador++
             comprobacion(listado, listaPulsaciones)
         }
@@ -174,7 +175,7 @@ class MainActivity : AppCompatActivity() {
     private fun comprobacion(listado: ArrayList<Button>, listaPulso: ArrayList<Button>){
 
             if (listado[contador].id != listaPulso[contador].id){
-                gameOver();
+                gameOver(listado);
                 println("Alv")
             }
             else if (listado.size == contador + 1){
@@ -187,10 +188,14 @@ class MainActivity : AppCompatActivity() {
         println("abc")
     }
 
-    private fun gameOver(){
+    private fun gameOver(listado: ArrayList<Button>){
         val botonInicio: Button = findViewById(R.id.inicio)
-         botonInicio.text = "Has perdido"
-         //iniciarPartida()
+         botonInicio.text = "Has perdido, record:" + record;
+        listaPulsaciones.clear()
+        ronda = 0
+        contador = -1
+        listado.clear()
+        iniciarPartida()
     }
 
 }
