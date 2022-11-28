@@ -7,6 +7,7 @@ import java.util.*
 import android.graphics.Color;
 import android.util.Log
 import android.widget.TextView
+import androidx.activity.viewModels
 import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     val listaPulsaciones: ArrayList<Button> = ArrayList();
     var contador2: Int = 0;
     var contador: Int = -1;
+    val miModelo by viewModels<MyViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
