@@ -27,7 +27,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun aumentarRonda() {
-       ronda.value?.plus(1)
+       ronda.value = ronda.value?.plus(1)
+    }
+
+    fun aumentarRecord() {
+        record.value = record.value?.plus(1)
     }
 
     fun resetearRonda(){

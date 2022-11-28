@@ -13,8 +13,6 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     val lista: ArrayList<Button> = ArrayList();
-    var ronda: Int = 0;
-    var record: Int = 0
     val listaPulsaciones: ArrayList<Button> = ArrayList();
     var contador2: Int = 0;
     var contador: Int = -1;
@@ -29,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun iniciarPartida(){
-        ronda = 0;
         if (contador2> 1){
             println("ah no")
             return
@@ -69,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (listado.size == 0){
-            ronda++
+            miModelo.aumentarRonda()
         }
         else{
             var boton: Button = findViewById(R.id.rojo)
@@ -80,11 +77,11 @@ class MainActivity : AppCompatActivity() {
                             delay(500L)
                         }
                         boton = items
-                        iluminar(items, ronda, listado)
+                        iluminar(items, miModelo.ronda.value!!.toInt(), listado)
                     }
                 }
-            ronda++
-            record++
+            miModelo.aumentarRonda()
+            miModelo.aumentarRecord()
         }
 
     }
@@ -192,9 +189,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun gameOver(listado: ArrayList<Button>){
         val botonInicio: Button = findViewById(R.id.inicio)
-         botonInicio.text = "Has perdido, record:" + record;
+         botonInicio.text = "Has perdido, record:" + miModelo.record.value.toString()
         listaPulsaciones.clear()
-        ronda = 0
+        miModelo.resetearRonda()
         contador = -1
         listado.clear()
         iniciarPartida()
