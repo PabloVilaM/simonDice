@@ -189,7 +189,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun gameOver(listado: ArrayList<Button>){
         val botonInicio: Button = findViewById(R.id.inicio)
-         botonInicio.text = "Has perdido, record:" + miModelo.record.value.toString()
+        //miModelo.actRecordBD()
+         botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.record.value.toString()
+        //miModelo.añadirRecord()
         listaPulsaciones.clear()
         miModelo.resetearRonda()
         contador = -1

@@ -45,7 +45,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         ronda.value = 0
     }
 
-   /* fun actRecordBD(){
+    /*fun actRecordBD(){
         val roomCorrutine = GlobalScope.launch() {
             try {
                 record.value = recordDao.mirarElRecord()
@@ -60,7 +60,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     fun añadirRecord() {
 
         val Coroutina = GlobalScope.launch() {
-            db!!.recordDao().update(RecordEntidades.DataUsuario(record.value, ronda.value ))
+            db!!.recordDao().update(RecordEntidades.DataUsuario(1,record.value, ronda.value ))
         }
         Coroutina.start()
 

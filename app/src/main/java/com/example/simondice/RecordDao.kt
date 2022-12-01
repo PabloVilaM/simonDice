@@ -11,7 +11,6 @@ class RecordDao {
         @Query("INSERT INTO DataUsuario VALUES (0)")
         suspend fun crearPuntuacion()
 
-
         @Update
         suspend fun update(record: RecordEntidades.DataUsuario)
     }
