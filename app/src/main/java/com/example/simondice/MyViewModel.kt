@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Inicializa y modifica los datos de la app
@@ -20,6 +22,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         context,
         RecordDataBase.AppDatabase::class.java, "Score"
     ).build()
+    val recordDao = db.recordDao()
 
 
     // inicializamos variables cuando instanciamos
@@ -42,8 +45,26 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         ronda.value = 0
     }
 
-    fun revisarRecordBD(){
-        val recordDao = db.recordDao()
-        val users: List<RecordEntidades.DataUsuario> = recordDao.mirarElPrimerRecord()
+   /* fun actRecordBD(){
+        val roomCorrutine = GlobalScope.launch() {
+            try {
+                record.value = recordDao.mirarElRecord()
+            } catch(ex : NullPointerException) {
+                db!!.recordDao().crearPuntuacion()
+                record.value = db!!.recordDao().mirarElRecord()
+            }
+        }
+        roomCorrutine.start()
     }
+
+    fun añadirRecord() {
+
+        val Coroutina = GlobalScope.launch() {
+            db!!.recordDao().update(RecordEntidades.DataUsuario(record.value, ronda.value ))
+        }
+        Coroutina.start()
+
+    }*/
+
+
 }

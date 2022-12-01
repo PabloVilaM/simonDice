@@ -5,11 +5,15 @@ class RecordDao {
     @Dao
     interface RecordDao {
 
-        @Query("SELECT max(record) FROM datausuario WHERE uid = 1")
-        fun mirarElPrimerRecord(): List<RecordEntidades.DataUsuario>
+        @Query("SELECT max(record) FROM DataUsuario")
+        suspend fun mirarElRecord(): Int
 
-        @Insert
-        fun insertAll(vararg users: RecordEntidades.DataUsuario)
+        @Query("INSERT INTO DataUsuario VALUES (0)")
+        suspend fun crearPuntuacion()
+
+
+        @Update
+        suspend fun update(record: RecordEntidades.DataUsuario)
     }
 
 }
