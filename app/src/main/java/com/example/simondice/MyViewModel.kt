@@ -18,11 +18,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     val ronda = MutableLiveData<Int>()
     val record = MutableLiveData<Int?>()
-    val db = Room.databaseBuilder(
+    val rondados = MutableLiveData<Int>()
+   val db = Room.databaseBuilder(
         context,
-        RecordDataBase.AppDatabase::class.java, "Score"
+        RecordDB::class.java, "Score"
     ).build()
-    val recordDao = db.recordDao()
 
 
     // inicializamos variables cuando instanciamos
@@ -43,15 +43,24 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetearRonda(){
         ronda.value = 0
+        record.value = 0
     }
 
-    /*fun actRecordBD(){
+    fun verDB(){
+        val roomCorrutine = GlobalScope.launch() {
+           rondados.postValue(db.recordDao().mirarElRecord())
+            println( "da" + db.recordDao().mirarElRecord())
+        }
+    }
+    fun actRecordBD(){
         val roomCorrutine = GlobalScope.launch() {
             try {
-                record.value = recordDao.mirarElRecord()
+                record.postValue(db.recordDao().mirarElRecord())
+                println("Problema:" + db.recordDao().mirarElRecord())
             } catch(ex : NullPointerException) {
                 db!!.recordDao().crearPuntuacion()
-                record.value = db!!.recordDao().mirarElRecord()
+                println("Entro en el catch")
+                record.postValue(db.recordDao().mirarElRecord())
             }
         }
         roomCorrutine.start()
@@ -60,11 +69,13 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     fun añadirRecord() {
 
         val Coroutina = GlobalScope.launch() {
-            db!!.recordDao().update(RecordEntidades.DataUsuario(1,record.value, ronda.value ))
+            println("Problema2 :" + db.recordDao().mirarElRecord())
+            println(record.value.toString() + " a " + ronda.value.toString())
+            db!!.recordDao().update(DataUsuario(1,record.value, ronda.value ))
         }
         Coroutina.start()
 
-    }*/
+    }
 
 
 }

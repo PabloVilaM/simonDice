@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             contador++
             comprobacion(listado, listaPulsaciones)
         }
-
+        miModelo.verDB()
     }
 
     private fun comprobacion(listado: ArrayList<Button>, listaPulso: ArrayList<Button>){
@@ -189,9 +189,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun gameOver(listado: ArrayList<Button>){
         val botonInicio: Button = findViewById(R.id.inicio)
-        //miModelo.actRecordBD()
-         botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.record.value.toString()
-        //miModelo.añadirRecord()
+        val record: Int = miModelo.rondados.value!!.toInt()
+        if (record < miModelo.record.value!!.toInt()){
+            miModelo.añadirRecord()
+        }
+        miModelo.actRecordBD()
+         botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.rondados.value.toString()
         listaPulsaciones.clear()
         miModelo.resetearRonda()
         contador = -1
