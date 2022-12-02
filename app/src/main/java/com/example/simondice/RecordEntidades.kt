@@ -1,6 +1,6 @@
 package com.example.simondice
     import androidx.room.*
-
+//Las columnas de la tabla, DataUsuario
     @Entity
     data class DataUsuario(
         @PrimaryKey(autoGenerate = true) val uid: Int,

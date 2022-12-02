@@ -1,7 +1,7 @@
 package com.example.simondice
 import androidx.room.*
 
-
+//Los métodos en relacion con la tabla y busquedas en la bd
     @Dao
     interface RecordDao {
 
