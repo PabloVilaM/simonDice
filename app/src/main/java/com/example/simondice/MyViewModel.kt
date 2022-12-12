@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val TAG_LOG: String = "Aqui tenemoh el ViewModel"
     //private val context = getApplication<Application>().applicationContext
     val ronda = MutableLiveData<Int>()
     val record = MutableLiveData<Int>()
@@ -29,12 +28,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         RecordDB::class.java, "Score"
     ).build()*/
 
+    //Inicializamos la base de datos con la url que nos da la pagina
     val database = Firebase.database("https://simondice-dd113-default-rtdb.europe-west1.firebasedatabase.app/").getReference("record")
 
 
     // inicializamos variables cuando instanciamos
     init {
-        Log.d(TAG_LOG, "Inicializamos el record y la ronda")
         ronda.value = 0
 
         //Establecemos el listener de la base de datos y lo añadimos en la úñtima linea
@@ -63,13 +62,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
        ronda.value = ronda.value?.plus(1)
 
     }
-    //Método para aumentar record
+    //Método para guardar el record
     fun guardarRecord() {
         record.value = ronda.value
-        println("asjhdgjhasg")
         database.setValue(record.value)
     }
-    //Método para resetear ronda y record
+    //Método para resetear ronda
     fun resetearRonda(){
         ronda.value = 0
     }

@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity() {
                     boton.setBackgroundColor(Color.parseColor("#5A0000"))
 
                 }
-                println("a")
             }
             boton.findViewById<Button>(R.id.azul) -> {
                 boton.setBackgroundColor(Color.parseColor("#177ae0"))
@@ -108,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                     boton.setBackgroundColor(Color.parseColor("#041E65"))
 
                 }
-                println("a")
             }
             boton.findViewById<Button>(R.id.verde) -> {
                 boton.setBackgroundColor(Color.parseColor("#21ce16"))
@@ -117,7 +115,6 @@ class MainActivity : AppCompatActivity() {
                     boton.setBackgroundColor(Color.parseColor("#025505"))
 
                 }
-                println("a")
             }
             boton.findViewById<Button>(R.id.amarillo) -> {
                 boton.setBackgroundColor(Color.parseColor("#e8eb0e"))
@@ -128,13 +125,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        println("Lista: " + listado.size + "ronda: " + ronda)
         if (ronda == listado.size){
-            println("Aqui entro")
             val botonInicio: Button = findViewById(R.id.inicio)
             botonInicio.text = "Repite la secuencia"
             for (items in listado){
-                println("Contador: " + contador)
                 gestionarPulsacion(listado)
             }
         }
@@ -148,7 +142,6 @@ class MainActivity : AppCompatActivity() {
         val botonAzul: Button = findViewById(R.id.azul);
         val botonVerde: Button = findViewById(R.id.verde);
         val botonAmarillo: Button = findViewById(R.id.amarillo);
-        println("Tam: " + listaPulsaciones.size)
         botonRojo.setOnClickListener {
             listaPulsaciones.add(botonRojo)
             println(listaPulsaciones.size)
@@ -184,16 +177,13 @@ class MainActivity : AppCompatActivity() {
 
             if (listado[contador].id != listaPulso[contador].id){
                 gameOver(listado);
-                println("Alv")
             }
             else if (listado.size == contador + 1){
                 generarSecuencia(listado)
-                println("No fuco")
                 contador = -1
                 listaPulso.clear()
 
             }
-        println("abc")
     }
 
     //Cuando el usuario falla, buscamos que salga el record en pantalla, además de limpiar las variables
