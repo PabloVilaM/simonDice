@@ -1,11 +1,18 @@
 package com.example.simondice
 
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.icu.text.AlphabeticIndex.Record
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,10 +24,13 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     val ronda = MutableLiveData<Int>()
     val record = MutableLiveData<Int?>()
     val rondados = MutableLiveData<Int>()
-   val db = Room.databaseBuilder(
+   /*val db = Room.databaseBuilder(
         context,
         RecordDB::class.java, "Score"
-    ).build()
+    ).build()*/
+
+    val database = Firebase.database("https://simondice-dd113-default-rtdb.europe-west1.firebasedatabase.app/")
+    val myRef = database.getReference("record")
 
 
     // inicializamos variables cuando instanciamos
@@ -34,6 +44,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     //Método para aumentar ronda
     fun aumentarRonda() {
        ronda.value = ronda.value?.plus(1)
+        myRef.setValue(ronda.value)
     }
     //Método para aumentar record
     fun aumentarRecord() {
@@ -45,8 +56,26 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         record.value = 0
     }
 
+
+    fun verFirebase(){
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue<Int>()
+                Log.d(TAG, "Value is: $value")
+                println("Valor es: $value")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+
+    }
     //Método para ver el valor actual del record
-    fun verDB(){
+    /*fun verDB(){
         val roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
            rondados.postValue(db.recordDao().mirarElRecord())
             println( "Base de datos record: " + db.recordDao().mirarElRecord())
@@ -77,5 +106,5 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         }
         Coroutina.start()
 
-    }
+    }*/
 }

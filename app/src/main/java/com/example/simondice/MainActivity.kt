@@ -82,8 +82,6 @@ class MainActivity : AppCompatActivity() {
                 }
             miModelo.aumentarRonda()
             miModelo.aumentarRecord()
-
-
     }
 
     //Con el boton que le pasamos, junto a la ronda y la lista lo que haremos será comprobar que botón
@@ -174,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             contador++
             comprobacion(listado, listaPulsaciones)
         }
-        miModelo.verDB()
+        //miModelo.verDB()
     }
 
     //Comprobamos con el contador en ambas listas si coincide la id, es decir, el color
@@ -201,13 +199,15 @@ class MainActivity : AppCompatActivity() {
     //Y poner a cero todas las cosas.
     private fun gameOver(listado: ArrayList<Button>){
         val botonInicio: Button = findViewById(R.id.inicio)
-        val record: Int = miModelo.rondados.value!!.toInt()
-        if (record < miModelo.record.value!!.toInt()){
-            miModelo.actualizarRecord()
+        //val record: Int = miModelo.rondados.value!!.toInt()
+        /*if (record < miModelo.record.value!!.toInt()){
+            //miModelo.actualizarRecord()
             println("Actualizado" + miModelo.record.value.toString())
-        }
-        miModelo.actRecordBD()
-         botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.rondados.value.toString()
+            miModelo.verFirebase()
+        }*/
+        //miModelo.actRecordBD()
+        miModelo.verFirebase()
+         botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.record.value.toString()
         listaPulsaciones.clear()
         GlobalScope.launch(Dispatchers.Main) {
             delay(1000L)
