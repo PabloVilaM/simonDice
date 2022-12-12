@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             miModelo.aumentarRonda()
-            miModelo.aumentarRecord()
+            //miModelo.aumentarRecord()
+
     }
 
     //Con el boton que le pasamos, junto a la ronda y la lista lo que haremos será comprobar que botón
@@ -206,7 +207,9 @@ class MainActivity : AppCompatActivity() {
             miModelo.verFirebase()
         }*/
         //miModelo.actRecordBD()
-        miModelo.verFirebase()
+        if (miModelo.ronda.value!! > miModelo.record.value!!){
+            miModelo.guardarRecord()
+        }
          botonInicio.text = "Has perdido, ronda:" + miModelo.ronda.value.toString() + " Record:" + miModelo.record.value.toString()
         listaPulsaciones.clear()
         GlobalScope.launch(Dispatchers.Main) {

@@ -20,50 +20,31 @@ import kotlinx.coroutines.launch
 class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val TAG_LOG: String = "Aqui tenemoh el ViewModel"
-    private val context = getApplication<Application>().applicationContext
+    //private val context = getApplication<Application>().applicationContext
     val ronda = MutableLiveData<Int>()
-    val record = MutableLiveData<Int?>()
-    val rondados = MutableLiveData<Int>()
+    val record = MutableLiveData<Int>()
+    //val rondados = MutableLiveData<Int>()
    /*val db = Room.databaseBuilder(
         context,
         RecordDB::class.java, "Score"
     ).build()*/
 
-    val database = Firebase.database("https://simondice-dd113-default-rtdb.europe-west1.firebasedatabase.app/")
-    val myRef = database.getReference("record")
+    val database = Firebase.database("https://simondice-dd113-default-rtdb.europe-west1.firebasedatabase.app/").getReference("record")
 
 
     // inicializamos variables cuando instanciamos
     init {
         Log.d(TAG_LOG, "Inicializamos el record y la ronda")
-        record.value = 0
         ronda.value = 0
-    }
 
-
-    //Método para aumentar ronda
-    fun aumentarRonda() {
-       ronda.value = ronda.value?.plus(1)
-        myRef.setValue(ronda.value)
-    }
-    //Método para aumentar record
-    fun aumentarRecord() {
-        record.value = record.value?.plus(1)
-    }
-    //Método para resetear ronda y record
-    fun resetearRonda(){
-        ronda.value = 0
-        record.value = 0
-    }
-
-
-    fun verFirebase(){
-        myRef.addValueEventListener(object : ValueEventListener {
+        //Establecemos el listener de la base de datos y lo añadimos en la úñtima linea
+        val Listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
                 Log.d(TAG, "Value is: $value")
+                record.value = value!!
                 println("Valor es: $value")
             }
 
@@ -71,9 +52,29 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
-        })
+
+        }
+        database.addValueEventListener(Listener)
+    }
+
+
+    //Método para aumentar ronda
+    fun aumentarRonda() {
+       ronda.value = ronda.value?.plus(1)
 
     }
+    //Método para aumentar record
+    fun guardarRecord() {
+        record.value = ronda.value
+        println("asjhdgjhasg")
+        database.setValue(record.value)
+    }
+    //Método para resetear ronda y record
+    fun resetearRonda(){
+        ronda.value = 0
+    }
+
+
     //Método para ver el valor actual del record
     /*fun verDB(){
         val roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
